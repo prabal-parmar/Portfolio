@@ -1,13 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
+import { ClientOnly } from "@/components/effects/ClientOnly";
+import { PortfolioApp } from "@/components/PortfolioApp";
+import { PortfolioFallback } from "@/components/PortfolioFallback";
 
 export const Route = createFileRoute("/")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Prabal Parmar — Gotham's Digital Vigilante | Developer Portfolio" },
@@ -25,7 +22,7 @@ export const Route = createFileRoute("/")({
     links: [
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap",
       },
     ],
   }),
@@ -34,16 +31,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <ClientOnly fallback={<PortfolioFallback />}>
+      <PortfolioApp />
+    </ClientOnly>
   );
 }
