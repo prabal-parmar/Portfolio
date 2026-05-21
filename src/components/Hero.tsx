@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import gothamHero from "@/assets/gotham-hero.jpg";
 import batLogo from "@/assets/bat-logo.png";
 import { BatSignal } from "./BatSignal";
@@ -7,19 +7,23 @@ import { Download, ChevronDown, Shield } from "lucide-react";
 import { Particles } from "./effects/Particles";
 import { GothamSkyline } from "./effects/GothamSkyline";
 import { TypingText } from "./effects/TypingText";
+import { GlitchText } from "./effects/GlitchText";
+import { MagneticButton } from "./effects/MagneticButton";
 
-const subtitle =
-  "Full-Stack Developer  ·  Software Craftsman  ·  B.Tech IT, SGSITS Indore '26";
+const subtitle = "Full-Stack Developer  ·  Software Craftsman  ·  B.Tech IT, SGSITS Indore '26";
 
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const signalRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const skylineY = useTransform(scrollYProgress, [0, 1], ["0vh", "-15vh"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0vh", "8vh"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   useEffect(() => {
     if (!signalRef.current) return;
@@ -44,7 +48,7 @@ export const Hero = () => {
       id="home"
       className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden pt-[var(--nav-height)] pb-20"
     >
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
+      <motion.div className="absolute inset-0" style={{ y: reducedMotion ? 0 : bgY }}>
         <img
           src={gothamHero}
           alt="Gotham City skyline drenched in crimson rain"
@@ -72,9 +76,12 @@ export const Hero = () => {
       </motion.div>
 
       <Particles count={35} />
-      <div className="absolute inset-x-0 bottom-0 z-[2]">
+      <motion.div
+        className="absolute inset-x-0 bottom-0 z-[2]"
+        style={{ y: reducedMotion ? 0 : skylineY }}
+      >
         <GothamSkyline opacity={0.35} />
-      </div>
+      </motion.div>
 
       <img
         src={batLogo}
@@ -94,7 +101,7 @@ export const Hero = () => {
 
       <motion.div
         className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 text-center"
-        style={{ opacity: contentOpacity }}
+        style={{ y: reducedMotion ? 0 : contentY, opacity: reducedMotion ? 1 : contentOpacity }}
       >
         {/* HUD identity badge — clears fixed navbar */}
         <motion.div
@@ -110,7 +117,10 @@ export const Hero = () => {
               boxShadow: "0 0 40px rgba(245, 197, 24, 0.12)",
             }}
           >
-            <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F5C518] shrink-0" strokeWidth={1.5} />
+            <Shield
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F5C518] shrink-0"
+              strokeWidth={1.5}
+            />
             <motion.div className="text-left sm:text-center">
               <span className="block font-mono text-[8px] sm:text-[9px] tracking-[0.45em] text-[#00C2FF]/70 uppercase">
                 Secure uplink · Gotham net
@@ -132,17 +142,16 @@ export const Hero = () => {
           transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-bold leading-[0.95] mb-2"
         >
-          <span className="block text-5xl sm:text-6xl md:text-8xl lg:text-[7.5rem] text-foreground/95 tracking-wide">
-            PRABAL
-          </span>
-          <motion.span
+          <GlitchText
+            text="PRABAL"
+            intensity="medium"
+            className="block text-5xl sm:text-6xl md:text-8xl lg:text-[7.5rem] text-foreground/95 tracking-wide"
+          />
+          <GlitchText
+            text="PARMAR"
+            intensity="medium"
             className="block text-5xl sm:text-6xl md:text-8xl lg:text-[7.5rem] text-primary text-glow tracking-wide mt-1"
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.75, delay: 0.45 }}
-          >
-            PARMAR
-          </motion.span>
+          />
         </motion.h1>
 
         <motion.p
@@ -198,32 +207,38 @@ export const Hero = () => {
           transition={{ delay: 1.1, duration: 0.65 }}
           className="mt-12 sm:mt-14 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-xl mx-auto"
         >
-          <motion.a
-            href="#projects"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full sm:flex-1 px-8 py-3.5 sm:py-4 btn-primary-glow font-display tracking-[0.2em] text-xs sm:text-sm bat-clip text-center"
-          >
-            ENTER THE BATCAVE
-          </motion.a>
-          <motion.a
-            href="/resume.pdf"
-            download
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 btn-ghost-glow font-display tracking-[0.2em] text-xs sm:text-sm bat-clip"
-          >
-            <Download className="w-4 h-4 shrink-0" />
-            DOSSIER
-          </motion.a>
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full sm:flex-1 px-8 py-3.5 sm:py-4 border border-[rgba(0,194,255,0.4)] text-[#00C2FF] hover:bg-[rgba(0,194,255,0.08)] font-display tracking-[0.2em] text-xs sm:text-sm transition-all bat-clip text-center"
-          >
-            LIGHT SIGNAL
-          </motion.a>
+          <MagneticButton className="w-full sm:flex-1">
+            <motion.a
+              href="#projects"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex min-h-[3.25rem] w-full items-center justify-center px-8 py-3.5 sm:py-4 btn-primary-glow font-display tracking-[0.2em] text-xs sm:text-sm bat-clip text-center"
+            >
+              ENTER THE BATCAVE
+            </motion.a>
+          </MagneticButton>
+          <MagneticButton className="w-full sm:flex-1">
+            <motion.a
+              href="/resume.pdf"
+              download
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full min-h-[3.25rem] inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 btn-ghost-glow font-display tracking-[0.2em] text-xs sm:text-sm bat-clip"
+            >
+              <Download className="w-4 h-4 shrink-0" />
+              DOSSIER
+            </motion.a>
+          </MagneticButton>
+          <MagneticButton className="w-full sm:flex-1">
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex min-h-[3.25rem] w-full items-center justify-center px-8 py-3.5 sm:py-4 border border-[rgba(0,194,255,0.4)] text-[#00C2FF] hover:bg-[rgba(0,194,255,0.08)] font-display tracking-[0.2em] text-xs sm:text-sm transition-all bat-clip text-center"
+            >
+              LIGHT SIGNAL
+            </motion.a>
+          </MagneticButton>
         </motion.div>
 
         <motion.div

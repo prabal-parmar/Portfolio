@@ -5,7 +5,7 @@ type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
-  direction?: "up" | "down" | "left" | "right" | "none";
+  direction?: "up" | "down" | "left" | "right" | "none" | "scale";
   amount?: number;
 };
 
@@ -15,6 +15,7 @@ const offsets = {
   left: { x: 48 },
   right: { x: -48 },
   none: {},
+  scale: { scale: 0.92 },
 };
 
 export const ScrollReveal = ({
@@ -32,7 +33,9 @@ export const ScrollReveal = ({
       ref={ref}
       className={className}
       initial={{ opacity: 0, ...offsets[direction] }}
-      animate={inView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...offsets[direction] }}
+      animate={
+        inView ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, ...offsets[direction] }
+      }
       transition={{
         duration: 0.85,
         delay,

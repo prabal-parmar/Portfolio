@@ -1,16 +1,50 @@
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
 import batman from "@/assets/batman-silhouette.jpg";
 import batLogo from "@/assets/bat-logo.png";
 import { BatSignal } from "./BatSignal";
 import { ScrollReveal } from "./effects/ScrollReveal";
 import { HUDFrame } from "./effects/HUDFrame";
+import type { BatTimelineProps } from "./effects/BatTimeline";
+import type { CountUpProps } from "./effects/CountUp";
 
-export const About = () => {
+type AboutProps = {
+  CountUpComponent: ComponentType<CountUpProps>;
+  BatTimelineComponent: ComponentType<BatTimelineProps>;
+};
+
+export const About = ({ CountUpComponent, BatTimelineComponent }: AboutProps) => {
   const stats = [
     { value: "10+", label: "Projects Shipped" },
     { value: "5+", label: "Tech Stacks" },
     { value: "3rd", label: "CodeQuest Rank" },
     { value: "'26", label: "B.Tech Class" },
+  ];
+  const timelineEntries = [
+    {
+      year: "2022",
+      title: "B.Tech Begins",
+      description:
+        "Enrolled in Information Technology at SGSITS Indore. First lines of code, first late nights in the Batcave.",
+    },
+    {
+      year: "2023",
+      title: "First Mission",
+      description:
+        "Built Chatzz, a realtime Firebase chat app. Discovered the power of full-stack development.",
+    },
+    {
+      year: "2024-25",
+      title: "Arsenal Expanded",
+      description:
+        "Shipped CodeVault, WhatsApp Analyzer, IPL Dashboard, and $-Tracker. Ranked 3rd at CodeQuest.",
+    },
+    {
+      year: "2026",
+      title: "Active Vigilante",
+      description:
+        "Final year. Building Pustakaalay, mentoring at CodeFoster, designing for GS Production House.",
+    },
   ];
 
   return (
@@ -137,7 +171,7 @@ export const About = () => {
                       aria-hidden="true"
                     />
                     <div className="font-display text-3xl md:text-4xl text-primary text-glow">
-                      {s.value}
+                      <CountUpComponent value={s.value} duration={1.8} />
                     </div>
                     <motion.div className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground mt-2 uppercase font-mono">
                       {s.label}
@@ -148,6 +182,10 @@ export const About = () => {
             </div>
           </ScrollReveal>
         </motion.div>
+
+        <ScrollReveal direction="scale" className="mt-24">
+          <BatTimelineComponent entries={timelineEntries} />
+        </ScrollReveal>
       </motion.div>
     </section>
   );

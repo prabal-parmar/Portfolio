@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "./About";
 import { ScrollReveal } from "./effects/ScrollReveal";
 import { BatSignal } from "./BatSignal";
-import { Mail, Phone, Github, Linkedin, MapPin, Send, Terminal } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Terminal } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const contacts = [
   {
@@ -14,13 +15,13 @@ const contacts = [
   },
   { icon: Phone, label: "Bat-Phone", value: "+91 83493 46608", href: "tel:+918349346608" },
   {
-    icon: Github,
+    icon: FaGithub,
     label: "GitHub",
     value: "prabal-parmar",
     href: "https://github.com/prabal-parmar",
   },
   {
-    icon: Linkedin,
+    icon: FaLinkedin,
     label: "LinkedIn",
     value: "Connect with me",
     href: "https://www.linkedin.com/in/prabal-parmar",
@@ -100,7 +101,7 @@ export const Contact = () => {
                         borderColor: "rgba(245,197,24,0.5)",
                       }}
                     >
-                      <c.icon className="w-4 h-4 text-primary flex-shrink-0 group-hover:text-[#00C2FF] transition-colors" />
+                      <c.icon className="w-5 h-5 text-primary flex-shrink-0 group-hover:text-[#00C2FF] transition-colors" />
                     </motion.div>
                     <div className="min-w-0">
                       <div className="text-[10px] tracking-[0.3em] text-[#00C2FF]/60 uppercase font-mono">

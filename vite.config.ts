@@ -27,13 +27,12 @@ export default defineConfig({
     ],
     esbuildOptions: {
       external: [
-        '#tanstack-router-entry',
-        '#tanstack-start-entry',
-        '#tanstack-start-plugin-adapters',
-        'tanstack-start-manifest:v',
-        'tanstack-start-injected-head-scripts:v',
+        "#tanstack-router-entry",
+        "#tanstack-start-entry",
+        "#tanstack-start-plugin-adapters",
+        "tanstack-start-manifest:v",
+        "tanstack-start-injected-head-scripts:v",
       ],
     },
   },
 });
-

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BatSignal } from "./BatSignal";
 import { Download, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MagneticButton } from "./effects/MagneticButton";
 
 const links = [
   { href: "#home", label: "Home" },
@@ -25,19 +26,33 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const sections = links.map((l) => document.querySelector(l.href)).filter(Boolean);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(`#${entry.target.id}`);
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
-    );
-    sections.forEach((s) => observer.observe(s!));
-    return () => observer.disconnect();
+    let frame = 0;
+
+    const updateActiveSection = () => {
+      const checkpoint = window.scrollY + window.innerHeight * 0.35;
+      const current = links.reduce((active, link) => {
+        const section = document.querySelector<HTMLElement>(link.href);
+        if (!section) return active;
+        return section.offsetTop <= checkpoint ? link.href : active;
+      }, "#home");
+
+      setActiveSection(current);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -107,16 +122,18 @@ export const Navbar = () => {
           </ul>
 
           <div className="flex items-center gap-2 shrink-0">
-            <motion.a
-              href="/resume.pdf"
-              download
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="hidden md:inline-flex items-center gap-2 px-3.5 lg:px-4 py-2 btn-ghost-glow font-display tracking-[0.2em] text-[10px] lg:text-xs bat-clip"
-            >
-              <Download className="w-3.5 h-3.5" />
-              RESUME
-            </motion.a>
+            <MagneticButton className="hidden md:block">
+              <motion.a
+                href="/resume.pdf"
+                download
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-2 btn-ghost-glow font-display tracking-[0.2em] text-[10px] lg:text-xs bat-clip"
+              >
+                <Download className="w-3.5 h-3.5" />
+                RESUME
+              </motion.a>
+            </MagneticButton>
 
             <button
               type="button"

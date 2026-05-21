@@ -1,59 +1,83 @@
 import { useMemo, useState } from "react";
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./About";
 import { ScrollReveal } from "./effects/ScrollReveal";
 import { TiltCard } from "./effects/TiltCard";
-import { Github, ExternalLink } from "lucide-react";
+import type { SpotlightCardProps } from "./effects/SpotlightCard";
+import { Github, ExternalLink, RadioTower } from "lucide-react";
 import batSignal from "@/assets/bat-signal.jpg";
 
 const projects = [
   {
     title: "CodeVault",
     tag: "Code Platform",
+    status: "Flagship",
     date: "Aug 2025",
     desc: "A code management platform on the MERN stack. Save snippets, practice coding problems, and review your workflow with personalized scoring.",
+    signal: "Developer workflow, scoring, snippet library",
     tech: ["MERN", "React", "Node", "Tailwind"],
   },
   {
     title: "Chatzz",
     tag: "Realtime Chat App",
+    status: "Shipped",
     date: "Apr 2024",
     desc: "Realtime chat application with Firebase auth and storage for fast, secure messaging.",
+    signal: "Auth, realtime sync, media storage",
     tech: ["React", "Firebase", "Python"],
   },
   {
     title: "WhatsApp Chat Analyzer",
     tag: "Data Analysis Tool",
+    status: "Analysis",
     date: "May 2025",
     desc: "Python tool that parses WhatsApp exports and surfaces insights — active users, message counts, top words, emojis, and chat patterns over time.",
+    signal: "Parsing, insights, data visualization",
     tech: ["Python", "Pandas", "Data"],
   },
   {
     title: "IPL Player Analyzer",
     tag: "Streamlit Dashboard",
+    status: "Dashboard",
     date: "May 2025",
     desc: "Interactive Streamlit dashboard analyzing IPL stats from 2008–2024. Compare players, rank by custom metrics, visualize trends across seasons.",
+    signal: "Custom metrics, filters, trend analysis",
     tech: ["Python", "Streamlit", "Pandas", "Data"],
   },
   {
     title: "$-Tracker",
     tag: "Expense Manager",
+    status: "Full Stack",
     date: "Jul 2025",
     desc: "Django + SQLite personal expense tracker with secure auth, full CRUD, category filters, and spending insights to keep finances under control.",
+    signal: "Secure auth, CRUD, spending insights",
     tech: ["Django", "Python", "SQLite"],
   },
   {
     title: "Pustakaalay",
     tag: "In Development",
+    status: "In Build",
     date: "2026",
     desc: "Currently in the Batcave — a library / book management system being built with a modern web stack. Stay tuned for the reveal.",
+    signal: "Library workflows, modern API stack",
     tech: ["React", "FastAPI", "Python"],
   },
 ];
 
+const projectMetrics = [
+  { value: "6", label: "Featured builds" },
+  { value: "3", label: "Product categories" },
+  { value: "2024-26", label: "Active timeline" },
+];
+
 const ALL = "All";
 
-export const Projects = () => {
+type ProjectsProps = {
+  SpotlightCardComponent: ComponentType<SpotlightCardProps>;
+};
+
+export const Projects = ({ SpotlightCardComponent }: ProjectsProps) => {
   const allTech = useMemo(() => {
     const set = new Set<string>();
     projects.forEach((p) => p.tech.forEach((t) => set.add(t)));
@@ -94,6 +118,22 @@ export const Projects = () => {
           <SectionHeader kicker="Case Files" title="Confidential Missions" />
         </ScrollReveal>
 
+        <ScrollReveal delay={0.08} direction="scale">
+          <div className="mx-auto mt-12 grid max-w-4xl gap-px overflow-hidden border border-primary/15 bg-primary/10 sm:grid-cols-3">
+            {projectMetrics.map((metric) => (
+              <div
+                key={metric.label}
+                className="bg-[#0A0A0A]/85 px-6 py-5 text-center backdrop-blur-sm"
+              >
+                <div className="font-display text-2xl text-primary text-glow">{metric.value}</div>
+                <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.28em] text-[#00C2FF]/60">
+                  {metric.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+
         <ScrollReveal delay={0.1}>
           <div className="mt-14 flex flex-col items-center gap-4">
             <p className="font-mono tracking-[0.3em] text-[10px] text-[#00C2FF]/60 uppercase">
@@ -124,23 +164,21 @@ export const Projects = () => {
         </ScrollReveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
-            {filtered.map((p, i) => (
-              <ScrollReveal key={p.title} delay={i * 0.06}>
+          {filtered.map((p, i) => (
+            <ScrollReveal key={p.title} delay={i * 0.06}>
+              <SpotlightCardComponent className="h-full">
                 <TiltCard>
                   <article className="bat-border glow-border p-6 lg:p-7 flex flex-col h-full group relative overflow-hidden">
-                    <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background:
-                          "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(245,197,24,0.08) 0%, transparent 50%)",
-                      }}
-                      aria-hidden="true"
-                    />
-
                     <div className="flex items-start justify-between gap-2 mb-4 relative z-10">
-                      <span className="text-[10px] tracking-[0.25em] text-[#00C2FF]/80 uppercase font-mono">
-                        {p.tag}
-                      </span>
+                      <div className="min-w-0">
+                        <span className="block text-[10px] tracking-[0.25em] text-[#00C2FF]/80 uppercase font-mono">
+                          {p.tag}
+                        </span>
+                        <span className="mt-1 inline-flex items-center gap-1.5 border border-primary/20 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-primary/80">
+                          <RadioTower className="h-3 w-3" />
+                          {p.status}
+                        </span>
+                      </div>
                       <span className="text-[10px] tracking-widest text-muted-foreground whitespace-nowrap font-mono">
                         {p.date}
                       </span>
@@ -151,6 +189,10 @@ export const Projects = () => {
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed flex-1 relative z-10">
                       {p.desc}
+                    </p>
+
+                    <p className="relative z-10 mt-4 border-l border-[#00C2FF]/25 pl-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#00C2FF]/65">
+                      {p.signal}
                     </p>
 
                     <div className="flex flex-wrap gap-2 mt-5 relative z-10">
@@ -184,8 +226,9 @@ export const Projects = () => {
                     />
                   </article>
                 </TiltCard>
-              </ScrollReveal>
-            ))}
+              </SpotlightCardComponent>
+            </ScrollReveal>
+          ))}
         </div>
 
         {filtered.length === 0 && (

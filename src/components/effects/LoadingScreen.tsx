@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BatSignal } from "../BatSignal";
+import { GlitchText } from "./GlitchText";
 
 const BOOT_LINES = [
   "> INITIALIZING BATCOMPUTER v4.2...",
@@ -97,8 +98,8 @@ export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
             <BatSignal size={72} flicker />
           </div>
 
-          <p className="font-hud text-[10px] tracking-[0.5em] text-[#00C2FF] mb-8 uppercase">
-            Wayne Enterprises — Secure Terminal
+          <p className="max-w-[90vw] px-4 text-center font-hud text-[10px] tracking-[0.3em] sm:tracking-[0.5em] text-[#00C2FF] mb-8 uppercase leading-relaxed">
+            <GlitchText text="Wayne Enterprises — Secure Terminal" intensity="low" />
           </p>
 
           <div className="w-64 h-1 bg-[#1A1A1A] rounded-full overflow-hidden mb-8 border border-[rgba(245,197,24,0.2)]">

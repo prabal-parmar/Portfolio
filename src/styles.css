@@ -33,6 +33,14 @@
   --color-bat-glow: var(--bat-glow);
   --color-bat-blue: var(--bat-blue);
   --color-gotham: var(--gotham);
+  --color-bat-crimson: var(--bat-crimson);
+  --color-bat-steel: var(--bat-steel);
+  --color-gradient-cinematic: linear-gradient(
+    90deg,
+    var(--bat-yellow) 0%,
+    var(--bat-blue) 50%,
+    var(--bat-crimson) 100%
+  );
   --font-display: "Cinzel", serif;
   --font-body: "Rajdhani", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -80,6 +88,9 @@
   --bat-glow: #ffe566;
   --bat-blue: #00c2ff;
   --gotham: #050505;
+  --bat-crimson: #8b0000;
+  --bat-shadow: #050505;
+  --bat-steel: #1c2333;
   --glass: rgba(17, 17, 17, 0.65);
   --glass-border: rgba(245, 197, 24, 0.12);
   --hud-line: rgba(0, 194, 255, 0.35);
@@ -108,7 +119,8 @@
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 197, 24, 0.06) 0%, transparent 50%),
       radial-gradient(ellipse 60% 40% at 100% 50%, rgba(0, 194, 255, 0.04) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 40% at 0% 80%, rgba(245, 197, 24, 0.03) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 40% at 0% 80%, rgba(245, 197, 24, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, transparent 40%, var(--bat-shadow) 100%);
     background-attachment: fixed;
   }
 
@@ -150,6 +162,7 @@
     filter: drop-shadow(0 0 14px rgba(245, 197, 24, 0.9))
       drop-shadow(0 0 32px rgba(245, 197, 24, 0.45));
   }
+
   20%,
   24%,
   55% {
@@ -166,6 +179,7 @@
       0 0 48px rgba(245, 197, 24, 0.08),
       inset 0 0 20px rgba(245, 197, 24, 0.03);
   }
+
   50% {
     box-shadow:
       0 0 48px rgba(245, 197, 24, 0.55),
@@ -179,6 +193,7 @@
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-14px);
   }
@@ -189,16 +204,20 @@
     transform: translate(-12vw, 22vh) scale(0.35) rotate(-8deg);
     opacity: 0;
   }
+
   8% {
     opacity: 0.65;
   }
+
   50% {
     transform: translate(52vw, 8vh) scale(0.55) rotate(6deg);
     opacity: 0.75;
   }
+
   92% {
     opacity: 0.5;
   }
+
   100% {
     transform: translate(112vw, 28vh) scale(0.35) rotate(-6deg);
     opacity: 0;
@@ -210,6 +229,7 @@
     opacity: 0;
     transform: translateY(36px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -220,6 +240,7 @@
   0% {
     transform: translateY(-100%);
   }
+
   100% {
     transform: translateY(100vh);
   }
@@ -231,6 +252,7 @@
     opacity: 0.35;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.08);
@@ -241,6 +263,7 @@
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: 200% 50%;
   }
@@ -251,6 +274,7 @@
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
@@ -267,6 +291,19 @@
   text-shadow:
     0 0 20px rgba(0, 194, 255, 0.6),
     0 0 50px rgba(0, 194, 255, 0.25);
+}
+
+.text-glow-crimson {
+  text-shadow:
+    0 0 20px rgba(139, 0, 0, 0.7),
+    0 0 50px rgba(139, 0, 0, 0.3);
+}
+
+.bat-gradient-text {
+  background: linear-gradient(90deg, var(--bat-yellow), var(--bat-blue));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .glass-panel {
@@ -494,6 +531,142 @@
   transform: translateX(100%);
 }
 
+@keyframes gotham-rain-fall {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.gotham-rain-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gotham-rain-drop {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  background: rgba(0, 194, 255, 0.15);
+  animation: gotham-rain-fall linear infinite;
+}
+
+@keyframes glitch-shift-low {
+  0%,
+  100% {
+    transform: translateX(0);
+    text-shadow: none;
+  }
+
+  20% {
+    transform: translateX(-2px);
+    text-shadow:
+      1px 0 rgba(255, 0, 0, 0.7),
+      -1px 0 rgba(0, 255, 255, 0.7);
+  }
+
+  40% {
+    transform: translateX(2px);
+    text-shadow:
+      -1px 0 rgba(255, 0, 0, 0.7),
+      1px 0 rgba(0, 255, 255, 0.7);
+  }
+
+  60% {
+    transform: translateX(-1px);
+  }
+
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes glitch-shift-medium {
+  0%,
+  100% {
+    transform: translateX(0);
+    text-shadow: none;
+  }
+
+  15% {
+    transform: translateX(-4px);
+    text-shadow:
+      2px 0 rgba(255, 0, 0, 0.8),
+      -2px 0 rgba(0, 255, 255, 0.8);
+  }
+
+  35% {
+    transform: translateX(4px);
+    text-shadow:
+      -2px 0 rgba(255, 0, 0, 0.8),
+      2px 0 rgba(0, 255, 255, 0.8);
+  }
+
+  55% {
+    transform: translateX(-2px);
+  }
+
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes glitch-clip-high {
+  0%,
+  100% {
+    clip-path: none;
+    transform: translateX(0);
+  }
+
+  25% {
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    transform: translateX(4px);
+  }
+
+  50% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    transform: translateX(-4px);
+  }
+
+  75% {
+    clip-path: none;
+    transform: translateX(2px);
+  }
+}
+
+.glitch-text {
+  display: inline-block;
+  position: relative;
+}
+
+.glitch-text.glitch-active-high::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: inherit;
+  opacity: 0.8;
+  transform: translateX(4px);
+  clip-path: polygon(0 35%, 100% 35%, 100% 55%, 0 55%);
+  animation: glitch-clip-high 300ms steps(2, end);
+  pointer-events: none;
+}
+
 .btn-ghost-glow {
   border: 1px solid rgba(245, 197, 24, 0.45);
   color: var(--bat-yellow);
@@ -506,4 +679,27 @@
   box-shadow:
     0 0 30px rgba(245, 197, 24, 0.2),
     inset 0 0 20px rgba(245, 197, 24, 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gotham-rain-container {
+    opacity: 0;
+  }
+
+  .gotham-rain-drop {
+    animation: none;
+  }
+
+  .glitch-text {
+    animation: none !important;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    animation: none !important;
+  }
+
+  .bat-timeline-spine {
+    animation: none;
+  }
 }
