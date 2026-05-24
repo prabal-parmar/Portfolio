@@ -16,9 +16,9 @@ type AboutProps = {
 export const About = ({ CountUpComponent, BatTimelineComponent }: AboutProps) => {
   const stats = [
     { value: "10+", label: "Projects Shipped" },
-    { value: "5+", label: "Tech Stacks" },
+    { value: "8+", label: "Tech Stacks" },
     { value: "3rd", label: "CodeQuest Rank" },
-    { value: "'26", label: "B.Tech Class" },
+    { value: "2026", label: "Internship" },
   ];
   const timelineEntries = [
     {
@@ -40,10 +40,16 @@ export const About = ({ CountUpComponent, BatTimelineComponent }: AboutProps) =>
         "Shipped CodeVault, WhatsApp Analyzer, IPL Dashboard, and $-Tracker. Ranked 3rd at CodeQuest.",
     },
     {
+      year: "Jan-Jun 2026",
+      title: "Software Developer Intern",
+      description:
+        "Hybrid internship at Livegage Inc. Ltd., contributing to a live US mortgage-services project with React, .NET, Python, Go, and blockchain technology.",
+    },
+    {
       year: "2026",
       title: "Active Vigilante",
       description:
-        "Final year. Building Pustakaalay, mentoring at CodeFoster, designing for GS Production House.",
+        "Final year. Building Pustakaalay, mentoring at CodeFoster, designing for GS Production House, and sharpening full-stack engineering in production workflows.",
     },
   ];
 
@@ -149,9 +155,16 @@ export const About = ({ CountUpComponent, BatTimelineComponent }: AboutProps) =>
 
             <p className="text-sm md:text-base leading-relaxed text-muted-foreground pl-4 border-l border-[rgba(0,194,255,0.2)]">
               I forge applications across the full stack — from React frontends to Django, FastAPI,
-              and Flask backends. My utility belt is loaded with Python, clean architecture, and
-              production-ready workflows. Whether it's a chat platform, an expense tracker, or a
-              code management system, I treat every project like a mission.
+              Flask, .NET, Python, and Go backends. My utility belt is loaded with clean
+              architecture, API integration, database management, and production-ready workflows.
+              Whether it's a chat platform, an expense tracker, or a code management system, I treat
+              every project like a mission.
+            </p>
+            <p className="text-sm md:text-base leading-relaxed text-muted-foreground pl-4 border-l border-[rgba(0,194,255,0.2)]">
+              Since January 2026, I have been working as a hybrid Software Developer Intern at
+              Livegage Inc. Ltd. on a live US mortgage-services project, gaining real-world
+              experience with scalable application development, system design, modular solutions,
+              performance optimization, and collaborative engineering practices.
             </p>
             <p className="text-sm md:text-base leading-relaxed text-muted-foreground pl-4 border-l border-[rgba(0,194,255,0.2)]">
               When I'm not coding, you'll find me designing graphics for GS Production House,
